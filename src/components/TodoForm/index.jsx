@@ -1,6 +1,6 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import {Container} from './style';
+import { toast } from 'react-toastify';
 
 const TodoForm = ({ addTodo }) => {
     const [value, setValue] = useState("");
@@ -9,7 +9,7 @@ const TodoForm = ({ addTodo }) => {
     // Função para criar a tarefa nova
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (!value || !category) return;
+        if (!value || !category) return toast.error('É necessario nome e categoria da tarefa');
 
         // Adicionando tarefa
         addTodo(value, category);

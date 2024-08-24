@@ -6,15 +6,14 @@ import TodoForm from './components/TodoForm';
 import SearchTodo from './components/Search';
 import FilterTodo from './components/FilterTodo';
 import { FcTodoList } from "react-icons/fc";
+import { toast } from 'react-toastify';
 
 function Home() {
   const [todos, setTodos] = useState(() => {
     // Carrega as tarefas do localStorage, se existirem  
     const savedTodos = localStorage.getItem('todos');
-    return savedTodos ? JSON.parse(savedTodos) : [];
+    return savedTodos ? JSON.parse(savedTodos) : []
   });
-
-
   const [search, setSearch] = useState(''); // Criando o estado para fazer nossa busca e mandando para o component
   const [filter, setFilter] = useState('All'); // Estado dos filtros, começando já mostrando todas tarefas
   const [sort, setSort] = useState('Asc'); // Estado das ordens alfabéticas, começando com a Ascendente
@@ -35,12 +34,14 @@ function Home() {
     ];
 
     setTodos(newTodos) // Colocando a nova tarefa junto com as que já existem
+    toast.success("Tarefa adicionada com sucesso!"); // Notificação ao adicionar
   };
 
   // Completar tarefa
   const completeTodo = (id) => {
     const newTodos = [...todos]
-    newTodos.map((todo) => todo.id === id ? todo.isCompleted = !todo.isCompleted : todo);
+    newTodos.map((todo) => todo.id === id ? (todo.isCompleted = !todo.isCompleted,
+      toast.info(`Tarefa ${todo.isCompleted ? 'Completa' : 'Reaberta'}!`)) : todo);
 
     setTodos(newTodos)
   };
@@ -51,6 +52,7 @@ function Home() {
     const filteredTodos = allTodos.filter(todo => todo.id !== id ? todo : null);
 
     setTodos(filteredTodos);
+    toast.error("Tarefa removida!");
   };
 
 
